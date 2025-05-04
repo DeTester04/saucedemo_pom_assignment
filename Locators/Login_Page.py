@@ -6,5 +6,10 @@ class LoginLocators:
     PASSWORD = (By.ID, "password")
     SUBMIT_BUTTON = (By.ID, "login-button")
 
+class LogoutLocators:
+    HAMBURGER_MENU = (By.ID, "react-burger-menu-btn")
+    LOG_OUT = (By.ID, "logout_sidebar_link")
+
+
 
 

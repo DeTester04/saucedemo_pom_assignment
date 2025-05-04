@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 
-from Action.Base_Page import BaseTest, AddToCartPage
+from Action.Base_Page import BaseTest, AddToCartPage, LogoutPage, PaymentProcessPage
 from config.configuration import Config
 
 
@@ -29,8 +29,8 @@ def test_login_page_on_sauce_demo_website(login):
 
 # Test adding product to cart/Logout
 def test_add_product_to_cart(login):
-    driver = login.driver
-    cart_page = AddToCartPage(driver)
+
+    cart_page = AddToCartPage(login.driver)
 
     #ADD TO CART
     cart_page.click_test_all_the_thing_shirt()
@@ -40,9 +40,27 @@ def test_add_product_to_cart(login):
     cart_page.click_sauce_labs_bolt_tshirt()
     cart_page.click_sauce_labs_onesie()
 
-    #lOGOUT
-    cart_page.click_hamburger_menu()
-    cart_page.click_log_out()
+    #Test payment process
+def test_payment_process(login):
+
+    check_out_page = PaymentProcessPage(login.driver)
+    check_out_page.click_add_cart_icon()
+    check_out_page.click_check_out_button()
+    check_out_page.enter_name(Config.NAME)
+    check_out_page.enter_last_name(Config.LASTNAME)
+    check_out_page.enter_zip_postal_code(Config.POSTAL_CODE)
+    check_out_page.click_continue_button()
+    check_out_page.click_finish_button()
+    check_out_page.click_back_home_button()
+
+def test_logout_page_on_sauce_demo_website(login):
+    log_out = LogoutPage(login.driver)
+
+    #CLICK HAMBURGER MENU
+    log_out.click_hamburger_menu()
+
+    #CLICK LOGOUT BUTTON
+    log_out.click_log_out()
 
 
 
