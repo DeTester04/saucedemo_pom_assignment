@@ -2,11 +2,9 @@ name: Python Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   test:
@@ -19,19 +17,24 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'  # Specify your Python version here
+          python-version: '3.13'
 
-      - name: Install dependencies
+      - name: Create and activate virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
           pip install pytest pytest-html
 
+      - name: List project files (debug test discovery)
+        run: |
+          echo "== Project Structure =="
+          ls -R
+
       - name: Run tests
         run: |
           source venv/bin/activate
-          pytest --html=report.html -p no:warnings
+          pytest . --html=report.html -p no:warnings
 
       - name: Upload HTML report
         if: always()
