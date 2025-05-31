@@ -19,19 +19,23 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'  # Specify your Python version here
+          python-version: '3.13'
 
-      - name: Install dependencies
+      - name: Create virtual environment and install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
           pip install pytest pytest-html
+          echo "source $(pwd)/venv/bin/activate" >> $GITHUB_ENV
 
       - name: Run tests
         run: |
-          source venv/bin/activate
           pytest --html=report.html -p no:warnings
+        env:
+          PATH: ${{ env.PATH }}:$(pwd)/venv/bin
 
       - name: Upload HTML report
         if: always()
