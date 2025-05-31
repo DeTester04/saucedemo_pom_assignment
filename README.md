@@ -11,11 +11,11 @@ to set up the **Page Object Model (POM)** in **PyCharm**
    - File > New Project  
    - Choose a directory and name your project, e.g., `automation_project`
 3. **Set up a Virtual Environment**  
-   PyCharm will prompt you to create a virtual environment. Make sure it's checked and Python interpreter is selected.
+   PyCha[README.md](README.md)rm will prompt you to create a virtual environment. Make sure it's checked and Python interpreter is selected.
 
 ---
 
-## ✅ Step 2: Project Directory Structure (POM-Friendly)
+## ✅ Step 2: Project Directory Structure 
 
 Create the following folder structure:
 

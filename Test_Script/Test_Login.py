@@ -1,15 +1,20 @@
 import pytest
+
 from selenium import webdriver
 
 from Action.Base_Page import BaseTest, AddToCartPage, LogoutPage, PaymentProcessPage
 from config.configuration import Config
+from selenium.webdriver.chrome.options import Options
 
 
 @pytest.fixture(scope="module")
 def driver_setup():
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(20)
-    driver.maximize_window()
+    chrome_options = Options()
+    #chrome_options.add_argument("--headless")      # Run in headless mode
+    chrome_options.add_argument("--disable-gpu")   # Prevent GPU errors in headless mode
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.implicitly_wait(20)                     # Wait implicitly up to 20s
+    driver.maximize_window()                       # Maximize window (has no effect in headless, but harmless)
     yield driver
     driver.quit()
 

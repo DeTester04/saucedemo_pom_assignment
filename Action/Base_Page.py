@@ -1,5 +1,6 @@
 import time
 
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -9,7 +10,8 @@ from Locators.Payment_Process_Page import PaymentProcessLocators
 
 
 #Time Variable
-DEFAULT_SLEEP_TIME = 3
+DEFAULT_SLEEP_TIME = 5
+
 
 class BaseTest:
     #Initializing our browser
@@ -20,15 +22,18 @@ class BaseTest:
     def open_login_page(self, url):
         self.driver.get(url)
 
+#lOGIN PAGE
     def enter_username(self, username):
         enter_username = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(LoginLocators.USERNAME))
         enter_username.send_keys(username)
+        time.sleep(DEFAULT_SLEEP_TIME)
 
     def enter_password(self, password):
         enter_password = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(LoginLocators.PASSWORD))
         enter_password.send_keys(password)
+        time.sleep(DEFAULT_SLEEP_TIME)
 
     def click_submit_button(self):
         click_submit_button = WebDriverWait(self.driver, 20).until(
@@ -36,7 +41,7 @@ class BaseTest:
         click_submit_button.click()
         time.sleep(DEFAULT_SLEEP_TIME)
 
-        #homepage/ ADD TO CART
+        #HOMEPAGE/ ADD TO CART
 class AddToCartPage:
     def __init__(self, driver):
         self.driver = driver
@@ -96,16 +101,16 @@ class PaymentProcessPage:
         time.sleep(DEFAULT_SLEEP_TIME)
 
     # CHECK_OUT_INFORMATION
-    def enter_name(self, john):
+    def enter_name(self, enter_name):
         name = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(PaymentProcessLocators.NAME))
-        name.send_keys(john)
+        name.send_keys(enter_name)
         time.sleep(DEFAULT_SLEEP_TIME)
 
-    def enter_last_name(self, smith):
+    def enter_last_name(self, enter_last_name):
         last_name = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(PaymentProcessLocators.LAST_NAME))
-        last_name.send_keys(smith)
+        last_name.send_keys(enter_last_name)
         time.sleep(DEFAULT_SLEEP_TIME)
 
     def enter_zip_postal_code(self, postal_code):
@@ -137,6 +142,7 @@ class LogoutPage:
     def __init__(self, driver):
         self.driver = driver
 
+#
     def click_hamburger_menu(self):
         click_hamburger_menu = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(LogoutLocators.HAMBURGER_MENU))
