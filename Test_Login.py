@@ -66,12 +66,3 @@ def test_logout_page_on_sauce_demo_website(login):
 
     #CLICK LOGOUT BUTTON
     log_out.click_log_out()
-
-
-
-
-
-
-
-
-
