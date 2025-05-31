@@ -19,13 +19,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'  # Specify your Python version here
+          python-version: '3.11'  # Use 3.11 or latest stable; 3.13 is not yet released/stable
 
       - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
+          pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
           pip install pytest pytest-html
 
       - name: Run tests
