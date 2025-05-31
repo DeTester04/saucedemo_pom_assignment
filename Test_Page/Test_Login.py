@@ -32,7 +32,7 @@ def test_login_page_on_sauce_demo_website(login):
     login.enter_password(Config.PASSWORD)
     login.click_submit_button()
 
-# Test adding product to cart/Logout
+# Test_Page adding product to cart/Logout
 def test_add_product_to_cart(login):
 
     cart_page = AddToCartPage(login.driver)
@@ -45,7 +45,7 @@ def test_add_product_to_cart(login):
     cart_page.click_sauce_labs_bolt_tshirt()
     cart_page.click_sauce_labs_onesie()
 
-    #Test payment process
+    #Test_Page payment process
 def test_payment_process(login):
 
     check_out_page = PaymentProcessPage(login.driver)
