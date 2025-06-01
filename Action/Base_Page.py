@@ -23,7 +23,7 @@ class BaseTest:
         self.driver.get(url)
 
 #lOGIN PAGE
-    def test_username(self, username):
+    def enter_username(self, username):
         enter_username = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(LoginLocators.USERNAME))
         enter_username.send_keys(username)
