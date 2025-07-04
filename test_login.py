@@ -1,8 +1,14 @@
 import pytest
 
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 
-from Action.Base_Page import BaseTest, AddToCartPage, LogoutPage, PaymentProcessPage
+from Action.Base_Page import BaseTest, AddToCartPage, PaymentProcessPage, LogInPage
+from Locators.Add_To_Cart_Page import AddToCartLocators
+from selenium.webdriver.support import expected_conditions as EC
+
+from Locators.Log_In_Page import LogOutLocators, LoginLocators
+from Locators.Payment_Process_Page import PaymentProcessLocators
 from config.configuration import Config
 from selenium.webdriver.chrome.options import Options
 
@@ -32,6 +38,11 @@ def test_login_page_on_sauce_demo_website(login):
     login.enter_password(Config.PASSWORD)
     login.click_submit_button()
 
+    # Wait for any element on the home page after login
+    WebDriverWait(login.driver, 10).until(
+        EC.visibility_of_element_located(AddToCartLocators.SAUCE_LABS_BACKPACK)
+    )
+
 # Test_Page adding product to cart/Logout
 def test_add_product_to_cart(login):
 
@@ -49,20 +60,51 @@ def test_add_product_to_cart(login):
 def test_payment_process(login):
 
     check_out_page = PaymentProcessPage(login.driver)
+
+     #PAYMENT PROCESS
     check_out_page.click_add_cart_icon()
+    WebDriverWait(login.driver, 10).until(
+        EC.visibility_of_element_located(PaymentProcessLocators.CHECK_OUT_BUTTON)
+    )
     check_out_page.click_check_out_button()
-    check_out_page.enter_name(Config.NAME)
+
+    WebDriverWait(login.driver, 10).until(
+        EC.visibility_of_element_located(PaymentProcessLocators.FIRST_NAME)
+    )
+
+    check_out_page.enter_first_name(Config.FIRSTNAME)
     check_out_page.enter_last_name(Config.LASTNAME)
-    check_out_page.enter_zip_postal_code(Config.POSTAL_CODE)
+    check_out_page.enter_zip_postal_code(Config.ZIP_POSTAL_CODE)
     check_out_page.click_continue_button()
+
+    WebDriverWait(login.driver, 10).until(
+        EC.element_to_be_clickable(PaymentProcessLocators.FINISH_BUTTON)
+    )
+
     check_out_page.click_finish_button()
+
+    WebDriverWait(login.driver, 10).until(
+        EC.element_to_be_clickable(PaymentProcessLocators.BACK_HOME_BUTTON)
+    )
+
     check_out_page.click_back_home_button()
 
 def test_logout_page_on_sauce_demo_website(login):
-    log_out = LogoutPage(login.driver)
 
-    #CLICK HAMBURGER MENU
-    log_out.click_hamburger_menu()
+    log_out_page = LogInPage(login.driver)
 
-    #CLICK LOGOUT BUTTON
-    log_out.click_log_out()
+    log_out_page.click_hamburger_menu_button()
+
+    WebDriverWait(login.driver, 10).until(
+        EC.element_to_be_clickable(LogOutLocators.LOG_OUT)
+    )
+
+    log_out_page.click_log_out_button()
+
+    # Confirm redirected to login page
+    WebDriverWait(login.driver, 10).until(
+        EC.visibility_of_element_located(LoginLocators.USERNAME)
+    )
+
+
+
